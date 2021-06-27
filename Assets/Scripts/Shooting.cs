@@ -4,50 +4,30 @@ using UnityEngine;
 
 public class Shooting : MonoBehaviour
 {
-    [SerializeField] float bulletForce;
-    [SerializeField] float shootingStateWaitTime;
+    [SerializeField] private float bulletForce;
+    [SerializeField] private float shootingStateWaitTime;
     public float fireRate;
     private float shootingTimeCount;
-    public bool isWagonWheelActive;
-
+    [HideInInspector] public bool isWagonWheelActive;
+    [HideInInspector] public static bool isShooting;
     private Vector2 shootDir;
     private Vector2 nullVector = new Vector2(0, 0);
 
-    public static bool isShooting;
-
-    public GameObject bulletPrefab;
+    [SerializeField] private GameObject bulletPrefab;
     private Animator animator;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         animator = GetComponent<Animator>();
-        isWagonWheelActive = false; 
+        isWagonWheelActive = false;
     }
 
     void Update()
     {
-        if (!isWagonWheelActive)
-        {
-            GetInput();
-        }
-        shootingTimeCount += Time.fixedDeltaTime;
-        if (shootingTimeCount > fireRate)
-        {
-            if (shootDir != nullVector && !isWagonWheelActive)
-            {
-                Shoot(shootDir);
-            }
-            if (isWagonWheelActive)
-            {
-                ShootInAllDir();
-            }
-            shootingTimeCount = 0;
-        }
+        HandleShooting();
     }
-
-    // Gets Input key and gives shoot direction based on it 
-    void GetInput()
+    
+    void GetShootDir()
     {
         if (Input.GetKey(KeyCode.UpArrow))
         {
@@ -131,6 +111,28 @@ public class Shooting : MonoBehaviour
             Shoot(new Vector2(1, 1));
             Shoot(new Vector2(1, -1));
             Shoot(new Vector2(-1, -1));
+        }
+    }
+
+    void HandleShooting()
+    {
+        if (!isWagonWheelActive)
+        {
+            GetShootDir();
+        }
+
+        shootingTimeCount += Time.deltaTime;
+        if (shootingTimeCount > fireRate)
+        {
+            if (shootDir != nullVector && !isWagonWheelActive)
+            {
+                Shoot(shootDir);
+            }
+            else if (isWagonWheelActive)
+            {
+                ShootInAllDir();
+            }
+            shootingTimeCount = 0;
         }
     }
 

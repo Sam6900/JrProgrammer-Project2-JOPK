@@ -6,10 +6,8 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] item[] items;
-    int luckyNum = 7;
-    int luckyItemNum;
 
-    public TextMeshProUGUI playerLifeCountText;
+    [SerializeField] private TextMeshProUGUI playerLifeCountText;
     private GameObject player;
     private PlayerController playerControllerScript;
 
@@ -22,7 +20,7 @@ public class GameManager : MonoBehaviour
         PlayerController.PlayerDeathHandler += PlayerController_PlayerDeathHandler;
     }
 
-    private void PlayerController_PlayerDeathHandler()
+    public void PlayerController_PlayerDeathHandler()
     {
         if (playerControllerScript.playerLifeCount >= 0)
             StartCoroutine(SetPlayerActive());
@@ -36,7 +34,10 @@ public class GameManager : MonoBehaviour
 
     public void DropItemIfLucky(Vector2 myPosition, Quaternion myRotation)
     {
+        int luckyNum = 7;
+        int luckyItemNum;
         int luckyDrawNum = Random.Range(1, 20);
+
         if (luckyDrawNum == luckyNum)
         {
             luckyItemNum = Random.Range(0, items.Length);
@@ -44,7 +45,7 @@ public class GameManager : MonoBehaviour
             {
                 if(Random.Range(0,3) == 1)
                 {
-                    luckyItemNum = 0;
+                    luckyItemNum = 0;//CoinX1 item
                 }
                 else
                 {
@@ -66,7 +67,11 @@ public class GameManager : MonoBehaviour
         player.gameObject.SetActive(true);
         yield return null;
     }
-    
+
+    private void OnDisable()
+    {
+        PlayerController.PlayerDeathHandler -= PlayerController_PlayerDeathHandler;
+    }
 }
 
 [System.Serializable]

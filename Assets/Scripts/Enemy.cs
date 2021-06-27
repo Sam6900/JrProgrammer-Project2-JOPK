@@ -5,12 +5,10 @@ using Pathfinding;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private int cleanEnemyBodyTime = 6;
-
+    [SerializeField] private readonly int cleanEnemyBodyTime = 6;
     private AIDestinationSetter aiDestinationSetterScript;
     private AIPath enemyAIPath;
     private GameObject player;
-    private PlayerController playerControllerScript;
     private BoxCollider2D enemyCollider;
     private GameManager gameManagerScript;
     
@@ -19,15 +17,6 @@ public class Enemy : MonoBehaviour
     private Animator enemyChildAnimator;
     private SpriteRenderer enemyChildRenderer;
 
-    private enum EnemyState{
-        Walk,
-        Dead
-    }
-    EnemyState enemyState;
-
-    /*
-    Getting all Components in awake and start
-    */
     void Awake()
     {       
         // Sets enemy AI destination on Player
@@ -42,7 +31,6 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         aiDestinationSetterScript.target = player.GetComponent<Transform>();
-        enemyState = EnemyState.Walk;
         enemyChild = transform.GetChild(0).gameObject;
         enemyChildRenderer = enemyChild.GetComponent<SpriteRenderer>();
         enemyChildAnimator = enemyChild.GetComponent<Animator>();
@@ -69,7 +57,7 @@ public class Enemy : MonoBehaviour
     // Enemy destroys player on collision
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") && enemyState == EnemyState.Walk)
+        if (collision.gameObject.CompareTag("Player"))
         {
             player = collision.gameObject;
             player.SetActive(false);
@@ -99,7 +87,6 @@ public class Enemy : MonoBehaviour
         enemyCollider.enabled = false;
         enemyChildAnimator.SetBool("isDead", true);
         enemyChildRenderer.sortingOrder = 8; //Set child sorting layer under enemie's sorting layer
-        enemyState = EnemyState.Dead;
 
         yield return new WaitForSeconds(cleanEnemyBodyTime);
         Destroy(gameObject);

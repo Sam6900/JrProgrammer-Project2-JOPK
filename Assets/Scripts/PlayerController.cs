@@ -6,15 +6,13 @@ using System;
 public class PlayerController : MonoBehaviour
 {
     public float moveSpeed;
-    public int playerLifeCount;
-    private int minLifeCount = 0;
-    [SerializeField] int moneyCount;
-    float playerOldMoveSpeed;
-    float playerOldFireRate;
-
+    [HideInInspector] public int playerLifeCount;
+    private readonly int minLifeCount = 0;
+    private int moneyCount;
+    private float playerOldMoveSpeed;
+    private float playerOldFireRate;
     private Vector2 moveDir;
     private Vector2 playerInitialPos = new Vector2(0.5f, 0);
-
     public static bool isPlayerAlive = true;
 
     private Rigidbody2D rb;
@@ -23,55 +21,24 @@ public class PlayerController : MonoBehaviour
     private Shooting playerShootingScript;
 
     public static event Action PlayerDeathHandler;
-
     public static event Action NukeExplosionHandler;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         gameManagerScript = GameObject.Find("Game Manager").GetComponent<GameManager>();
         playerShootingScript = GetComponent<Shooting>();
 
-        gameManagerScript.UpdatePlayerLifeCount(playerLifeCount);
         playerOldMoveSpeed = moveSpeed;
         playerOldFireRate = playerShootingScript.fireRate;
+        gameManagerScript.UpdatePlayerLifeCount(playerLifeCount);
     }
 
     // Update is called once per frame
     void Update()
     {
-        float moveX = 0f;
-        float moveY = 0f;
-
-        // Get Input for movement
-        if (Input.GetKey(KeyCode.W))
-        {
-            moveY = +1f;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            moveY = -1f;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            moveX = +1f;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            moveX = -1f;
-        }
-
-        moveDir = new Vector2(moveX, moveY);
-
-        // If player is not shooting change move animation states
-        if ( Shooting.isShooting == false)
-        {
-            animator.SetFloat("Horizontal", moveX);
-            animator.SetFloat("Vertical", moveY);
-            animator.SetFloat("Speed", moveDir.sqrMagnitude);
-        }
+        HandleMovement();
     }
 
     private void FixedUpdate()
@@ -112,25 +79,61 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnDisable()
+    private void HandleMovement()
     {
-        isPlayerAlive = false;
+        float moveX = 0f;
+        float moveY = 0f;
 
+        // Get Input for movement
+        if (Input.GetKey(KeyCode.W))
+        {
+            moveY = +1f;
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            moveY = -1f;
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            moveX = +1f;
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            moveX = -1f;
+        }
+        moveDir = new Vector2(moveX, moveY);
+
+        // If player is not shooting change move animation states
+        if (Shooting.isShooting == false)
+        {
+            animator.SetFloat("Horizontal", moveX);
+            animator.SetFloat("Vertical", moveY);
+            animator.SetFloat("Speed", moveDir.sqrMagnitude);
+        }
+    }
+
+    private void HandlePlayerDeath()
+    {
         if (playerLifeCount > minLifeCount)
         {
             playerLifeCount -= 1;
             gameManagerScript.UpdatePlayerLifeCount(playerLifeCount);
+
+            if (PlayerDeathHandler != null)
+                PlayerDeathHandler();
         }
         else if (playerLifeCount == minLifeCount) // Sets actual life count under 0 to prevent player spawning on death
         {
             playerLifeCount -= 1;
-        }
-        
-        if (playerLifeCount >= -1)
-        {
             if (PlayerDeathHandler != null)
-                    PlayerDeathHandler();
+                PlayerDeathHandler();
         }
+    }
+
+    void OnDisable()
+    {
+        isPlayerAlive = false;
+        HandlePlayerDeath();
     }
 
     void OnEnable()
@@ -140,27 +143,26 @@ public class PlayerController : MonoBehaviour
         Shooting.isShooting = false;
     }
 
-
     #region Item's functionality
 
-    public void CoinX1Function()
+    private void CoinX1Function()
     {
         moneyCount += 1;
         Debug.Log(moneyCount);
     }
 
-    public void CoinX5Function()
+    private void CoinX5Function()
     {
         moneyCount += 5;
     }
 
-    public void LifeItemFunction()
+    private void LifeItemFunction()
     {
         playerLifeCount += 1;
         gameManagerScript.UpdatePlayerLifeCount(playerLifeCount);
     }
 
-    public IEnumerator TeaItemFunction()
+    private IEnumerator TeaItemFunction()
     {
         moveSpeed = 5.5f;
         yield return new WaitForSeconds(16);
@@ -168,7 +170,7 @@ public class PlayerController : MonoBehaviour
         yield return null;
     }
 
-    public IEnumerator MachineGunItemFunction()
+    private IEnumerator MachineGunItemFunction()
     {
         playerShootingScript.fireRate = 0.09f;
         yield return new WaitForSeconds(12);
@@ -176,13 +178,13 @@ public class PlayerController : MonoBehaviour
         yield return null;
     }
 
-    public void NukeItemFunction()
+    private void NukeItemFunction()
     {
         if (NukeExplosionHandler != null)
             NukeExplosionHandler();
     }
 
-    public IEnumerator WagonWheelItemFunction()
+    private IEnumerator WagonWheelItemFunction()
     {
         playerShootingScript.isWagonWheelActive = true;
         yield return new WaitForSeconds(12);

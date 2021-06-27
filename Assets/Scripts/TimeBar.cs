@@ -6,7 +6,7 @@ using System;
 
 public class TimeBar : MonoBehaviour
 {
-    [SerializeField] int totalLevelTime;
+    [SerializeField] private int totalLevelTime;
     private Slider slider;
 
     public static event Action TimeBarFinished;
@@ -30,14 +30,16 @@ public class TimeBar : MonoBehaviour
     // Starts counting down from levelTime to 0
     public IEnumerator Timer()
     {
+        float timerDecreaseAmount = 0.1f;
+
         while (slider.value >= 0)
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(timerDecreaseAmount);
 
             if (PlayerController.isPlayerAlive == true)
-                slider.value -= 0.5f;
+                slider.value -= timerDecreaseAmount;
             
-            if(slider.value <= 0)
+            if(slider.value == 0)
             {
                 if (TimeBarFinished != null)
                     TimeBarFinished();
