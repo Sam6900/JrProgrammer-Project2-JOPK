@@ -1,13 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] item[] items;
-
-    [SerializeField] private TextMeshProUGUI playerLifeCountText;
+    [SerializeField] private item[] items;
     private GameObject player;
     private PlayerController playerControllerScript;
 
@@ -24,12 +21,6 @@ public class GameManager : MonoBehaviour
     {
         if (playerControllerScript.playerLifeCount >= 0)
             StartCoroutine(SetPlayerActive());
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        
     }
 
     public void DropItemIfLucky(Vector2 myPosition, Quaternion myRotation)
@@ -54,11 +45,6 @@ public class GameManager : MonoBehaviour
             }
             GameObject itemCreated = Instantiate(items[luckyItemNum].itemObject, myPosition, myRotation);
         }
-    }
-
-    public void UpdatePlayerLifeCount(int count)
-    {
-        playerLifeCountText.text = "x " + count;
     }
 
     IEnumerator SetPlayerActive()

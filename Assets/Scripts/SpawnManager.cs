@@ -6,10 +6,11 @@ public class SpawnManager : MonoBehaviour
 {
     // For Waves
     [SerializeField] private Wave[] waves;
-    [SerializeField] private GameObject enemyCommon;
+    [Tooltip("Keep common enemy at element 0")]
+    [SerializeField] private GameObject[] enemies;
 
     // For Single Enemy Spawning
-    [SerializeField] float singleEnemySpawnRate;
+    [SerializeField] private float singleEnemySpawnRate;
     [SerializeField] private Transform[] singleSpawnPos;
 
     // Start is called before the first frame update
@@ -40,7 +41,7 @@ public class SpawnManager : MonoBehaviour
 
             if (PlayerController.isPlayerAlive)
             {
-                Instantiate(enemyCommon, randSpawnPos, enemyCommon.transform.rotation);
+                Instantiate(enemies[RandEnemy()] , randSpawnPos, enemies[RandEnemy()].transform.rotation);
             }
         }
     }
@@ -59,7 +60,7 @@ public class SpawnManager : MonoBehaviour
             {
                 for (int x = 0; x < 4; x++)
                 {
-                    Instantiate(enemyCommon, waves[randWaveOfThreeDir].spawnArea[x].position, enemyCommon.transform.rotation);
+                    Instantiate(enemies[RandEnemy()], waves[randWaveOfThreeDir].spawnArea[x].position, enemies[RandEnemy()].transform.rotation);
                 }
             }
         }
@@ -80,9 +81,25 @@ public class SpawnManager : MonoBehaviour
             {
                 for (int i = 0; i < numOfEnemiesToSpawn; i++)
                 {
-                    Instantiate(enemyCommon, waves[randWaveDir].spawnArea[i].position, enemyCommon.transform.rotation);
+                    Instantiate(enemies[RandEnemy()], waves[randWaveDir].spawnArea[i].position, enemies[RandEnemy()].transform.rotation);
                 }
             }
+        }
+    }
+
+    private int RandEnemy()
+    {
+        int randEnemyNum = Random.Range(0, enemies.Length);
+
+        if (randEnemyNum == 1)
+        {
+            int otherRandNum = Random.Range(0, enemies.Length);
+            return otherRandNum;
+        }
+
+        else
+        {
+            return randEnemyNum;
         }
     }
 }

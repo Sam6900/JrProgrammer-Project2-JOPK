@@ -5,10 +5,10 @@ using System;
 
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed;
+    [SerializeField] private float moveSpeed;
     [HideInInspector] public int playerLifeCount;
+    [HideInInspector] public int moneyCount;
     private readonly int minLifeCount = 0;
-    private int moneyCount;
     private float playerOldMoveSpeed;
     private float playerOldFireRate;
     private Vector2 moveDir;
@@ -17,8 +17,8 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb;
     private Animator animator;
-    private GameManager gameManagerScript;
     private Shooting playerShootingScript;
+    [SerializeField] private HUDController hudControllerScript;
 
     public static event Action PlayerDeathHandler;
     public static event Action NukeExplosionHandler;
@@ -27,12 +27,11 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        gameManagerScript = GameObject.Find("Game Manager").GetComponent<GameManager>();
         playerShootingScript = GetComponent<Shooting>();
 
         playerOldMoveSpeed = moveSpeed;
         playerOldFireRate = playerShootingScript.fireRate;
-        gameManagerScript.UpdatePlayerLifeCount(playerLifeCount);
+        hudControllerScript.UpdatePlayerLifeCount(playerLifeCount);
     }
 
     // Update is called once per frame
@@ -117,7 +116,7 @@ public class PlayerController : MonoBehaviour
         if (playerLifeCount > minLifeCount)
         {
             playerLifeCount -= 1;
-            gameManagerScript.UpdatePlayerLifeCount(playerLifeCount);
+            hudControllerScript.UpdatePlayerLifeCount(playerLifeCount);
 
             if (PlayerDeathHandler != null)
                 PlayerDeathHandler();
@@ -140,7 +139,9 @@ public class PlayerController : MonoBehaviour
     {
         isPlayerAlive = true;
         transform.position = playerInitialPos;
-        Shooting.isShooting = false;
+        moveSpeed = playerOldMoveSpeed;
+        playerShootingScript.fireRate = playerOldFireRate;
+        playerShootingScript.isWagonWheelActive = false;
     }
 
     #region Item's functionality
@@ -159,7 +160,7 @@ public class PlayerController : MonoBehaviour
     private void LifeItemFunction()
     {
         playerLifeCount += 1;
-        gameManagerScript.UpdatePlayerLifeCount(playerLifeCount);
+        hudControllerScript.UpdatePlayerLifeCount(playerLifeCount);
     }
 
     private IEnumerator TeaItemFunction()
@@ -192,5 +193,5 @@ public class PlayerController : MonoBehaviour
         yield return null;
     }
 
-# endregion
+    #endregion
 }

@@ -6,20 +6,24 @@ public class Shooting : MonoBehaviour
 {
     [SerializeField] private float bulletForce;
     [SerializeField] private float shootingStateWaitTime;
-    public float fireRate;
-    private float shootingTimeCount;
     [HideInInspector] public bool isWagonWheelActive;
     [HideInInspector] public static bool isShooting;
+    public float fireRate;
+    private float shootingTimeCount;
     private Vector2 shootDir;
     private Vector2 nullVector = new Vector2(0, 0);
 
-    [SerializeField] private GameObject bulletPrefab;
     private Animator animator;
+    [SerializeField] private GameObject bulletPrefab;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
         isWagonWheelActive = false;
+    }
+
+    private void Start()
+    {
     }
 
     void Update()
@@ -157,5 +161,10 @@ public class Shooting : MonoBehaviour
         yield return new WaitForSeconds(shootingStateWaitTime);
         isShooting = false;
         animator.SetBool("isShooting", false);
+    }
+
+    private void OnEnable()
+    {
+        isShooting = false;
     }
 }

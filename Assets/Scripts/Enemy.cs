@@ -6,6 +6,7 @@ using Pathfinding;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private readonly int cleanEnemyBodyTime = 6;
+    [SerializeField] private int hitPoints;
     private AIDestinationSetter aiDestinationSetterScript;
     private AIPath enemyAIPath;
     private GameObject player;
@@ -17,7 +18,7 @@ public class Enemy : MonoBehaviour
     private Animator enemyChildAnimator;
     private SpriteRenderer enemyChildRenderer;
 
-    void Awake()
+    protected void Awake()
     {       
         // Sets enemy AI destination on Player
         aiDestinationSetterScript = GetComponent<AIDestinationSetter>();
@@ -63,15 +64,13 @@ public class Enemy : MonoBehaviour
             player.SetActive(false);
         }
     }
-
-    // On bullet hit do all importatant stuff and play enemy death anim
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Bullet"))
         {
-            gameManagerScript.DropItemIfLucky(transform.position, transform.rotation);
             Destroy(collision.gameObject);
-            StartCoroutine(OnEnemyDeath());
+            HandleEnemyDeath();
         }
     }
 
@@ -79,6 +78,16 @@ public class Enemy : MonoBehaviour
     {
         PlayerController.PlayerDeathHandler -= PlayerController_PlayerDeathHandler;
         PlayerController.NukeExplosionHandler -= PlayerController_NukeExplosionHandler;
+    }
+
+    private void HandleEnemyDeath()
+    {
+        hitPoints--;
+        if (hitPoints == 0)
+        {
+            StartCoroutine(OnEnemyDeath());
+            gameManagerScript.DropItemIfLucky(transform.position, transform.rotation);
+        }
     }
 
     private IEnumerator OnEnemyDeath()
