@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     {
         int luckyNum = 7;
         int luckyItemNum;
-        int luckyDrawNum = Random.Range(1, 20);
+        int luckyDrawNum = Random.Range(1, 19);
 
         if (luckyDrawNum == luckyNum)
         {
