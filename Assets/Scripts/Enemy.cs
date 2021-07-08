@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
 
-public class Enemy : MonoBehaviour
+public abstract class Enemy : MonoBehaviour
 {
     [SerializeField] private readonly int cleanEnemyBodyTime = 6;
-    [SerializeField] private int hitPoints;
+    [SerializeField] protected int hitPoints;
     private AIDestinationSetter aiDestinationSetterScript;
-    private AIPath enemyAIPath;
-    private GameObject player;
+    protected AIPath enemyAIPath;
+    protected GameObject player;
     private BoxCollider2D enemyCollider;
-    private GameManager gameManagerScript;
+    protected GameManager gameManagerScript;
     
     // Enemy Child Fields
     private GameObject enemyChild;
-    private Animator enemyChildAnimator;
+    protected Animator enemyChildAnimator;
     private SpriteRenderer enemyChildRenderer;
 
-    protected void Awake()
+    void Awake()
     {       
         // Sets enemy AI destination on Player
         aiDestinationSetterScript = GetComponent<AIDestinationSetter>();
@@ -31,7 +31,7 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-        aiDestinationSetterScript.target = player.GetComponent<Transform>();
+        aiDestinationSetterScript.target = GetTarget();
         enemyChild = transform.GetChild(0).gameObject;
         enemyChildRenderer = enemyChild.GetComponent<SpriteRenderer>();
         enemyChildAnimator = enemyChild.GetComponent<Animator>();
@@ -50,10 +50,7 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void Update()
-    {
-
-    }
+    protected abstract Transform GetTarget();
 
     // Enemy destroys player on collision
     private void OnCollisionEnter2D(Collision2D collision)
@@ -70,7 +67,7 @@ public class Enemy : MonoBehaviour
         if (collision.gameObject.CompareTag("Bullet"))
         {
             Destroy(collision.gameObject);
-            HandleEnemyDeath();
+            HandleAttack();
         }
     }
 
@@ -80,7 +77,7 @@ public class Enemy : MonoBehaviour
         PlayerController.NukeExplosionHandler -= PlayerController_NukeExplosionHandler;
     }
 
-    private void HandleEnemyDeath()
+    protected virtual void HandleAttack()
     {
         hitPoints--;
         if (hitPoints == 0)
@@ -90,7 +87,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private IEnumerator OnEnemyDeath()
+    protected IEnumerator OnEnemyDeath()
     {
         enemyAIPath.enabled = false;
         enemyCollider.enabled = false;

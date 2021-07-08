@@ -113,6 +113,24 @@ TextureImporter:
   - first:
       213: -3365382111666796175
     second: PC Computer - Stardew Valley - Journey of the Prairie King_39
+  - first:
+      213: -2025626205307464454
+    second: PC Computer - Stardew Valley - Journey of the Prairie King_40
+  - first:
+      213: -9056196641054815785
+    second: PC Computer - Stardew Valley - Journey of the Prairie King_41
+  - first:
+      213: -4385872239477150534
+    second: PC Computer - Stardew Valley - Journey of the Prairie King_42
+  - first:
+      213: 592661799608770736
+    second: PC Computer - Stardew Valley - Journey of the Prairie King_43
+  - first:
+      213: -4892055594455566570
+    second: PC Computer - Stardew Valley - Journey of the Prairie King_44
+  - first:
+      213: 4890915434476515180
+    second: PC Computer - Stardew Valley - Journey of the Prairie King_45
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -1016,7 +1034,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1037,7 +1055,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1045,6 +1063,132 @@ TextureImporter:
       bones: []
       spriteID: 17985acccc2cb41d0800000000000000
       internalID: -3365382111666796175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Stardew Valley - Journey of the Prairie King_40
+      rect:
+        serializedVersion: 2
+        x: 239
+        y: 162
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af41de0d2b783e3e0800000000000000
+      internalID: -2025626205307464454
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Stardew Valley - Journey of the Prairie King_41
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 162
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d987d1032de15280800000000000000
+      internalID: -9056196641054815785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Stardew Valley - Journey of the Prairie King_42
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 162
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: abca7bf7f604223c0800000000000000
+      internalID: -4385872239477150534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Stardew Valley - Journey of the Prairie King_43
+      rect:
+        serializedVersion: 2
+        x: 415
+        y: 178
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b0ef9544ce893800800000000000000
+      internalID: 592661799608770736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Stardew Valley - Journey of the Prairie King_44
+      rect:
+        serializedVersion: 2
+        x: 431
+        y: 178
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 61773072b5deb1cb0800000000000000
+      internalID: -4892055594455566570
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC Computer - Stardew Valley - Journey of the Prairie King_45
+      rect:
+        serializedVersion: 2
+        x: 447
+        y: 178
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6fa27aaca500e340800000000000000
+      internalID: 4890915434476515180
       vertices: []
       indices: 
       edges: []

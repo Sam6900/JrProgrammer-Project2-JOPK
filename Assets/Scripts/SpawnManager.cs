@@ -97,6 +97,20 @@ public class SpawnManager : MonoBehaviour
             return otherRandNum;
         }
 
+        else if (randEnemyNum == 2)
+        {
+            int otherRandNum = Random.Range(0, enemies.Length);
+            if (otherRandNum == 2)
+            {
+                otherRandNum = Random.Range(0, enemies.Length);
+                return otherRandNum;
+            }
+            else
+            {
+                return otherRandNum;
+            }
+        }
+
         else
         {
             return randEnemyNum;
