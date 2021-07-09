@@ -5,12 +5,13 @@ using Pathfinding;
 
 public abstract class Enemy : MonoBehaviour
 {
-    [SerializeField] private readonly int cleanEnemyBodyTime = 6;
+    [SerializeField] private int cleanEnemyBodyTime = 6;
     [SerializeField] protected int hitPoints;
     private AIDestinationSetter aiDestinationSetterScript;
     protected AIPath enemyAIPath;
     protected GameObject player;
     private BoxCollider2D enemyCollider;
+    public static int enemyCount;
     protected GameManager gameManagerScript;
     
     // Enemy Child Fields
@@ -35,9 +36,17 @@ public abstract class Enemy : MonoBehaviour
         enemyChild = transform.GetChild(0).gameObject;
         enemyChildRenderer = enemyChild.GetComponent<SpriteRenderer>();
         enemyChildAnimator = enemyChild.GetComponent<Animator>();
+        enemyCount++;
+        Debug.Log(enemyCount);
 
         PlayerController.PlayerDeathHandler += PlayerController_PlayerDeathHandler;
         PlayerController.NukeExplosionHandler += PlayerController_NukeExplosionHandler;
+        TimeBar.TimeBarFinished += TimeBar_TimeBarFinished;
+    }
+
+    private void TimeBar_TimeBarFinished()
+    {
+        StartCoroutine(OnEnemyDeath());
     }
 
     private void PlayerController_NukeExplosionHandler()
@@ -62,7 +71,7 @@ public abstract class Enemy : MonoBehaviour
         }
     }
     
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Bullet"))
         {
@@ -75,6 +84,8 @@ public abstract class Enemy : MonoBehaviour
     {
         PlayerController.PlayerDeathHandler -= PlayerController_PlayerDeathHandler;
         PlayerController.NukeExplosionHandler -= PlayerController_NukeExplosionHandler;
+        TimeBar.TimeBarFinished -= TimeBar_TimeBarFinished;
+        enemyCount--;
     }
 
     protected virtual void HandleAttack()
@@ -93,7 +104,7 @@ public abstract class Enemy : MonoBehaviour
         enemyCollider.enabled = false;
         enemyChildAnimator.SetBool("isDead", true);
         enemyChildRenderer.sortingOrder = 8; //Set child sorting layer under enemie's sorting layer
-
+        
         yield return new WaitForSeconds(cleanEnemyBodyTime);
         Destroy(gameObject);
     }
