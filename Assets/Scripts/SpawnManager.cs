@@ -29,6 +29,8 @@ public class SpawnManager : MonoBehaviour
         StopAllCoroutines();
     }
 
+//  ABSTRACTION
+
     // Spawns single enemies from any direction
     IEnumerator SpawnSingleEnemies()
     {
@@ -52,7 +54,7 @@ public class SpawnManager : MonoBehaviour
         while (true)
         {
             int randWaveOfThreeDir = Random.Range(0, 4);
-            int randSmallWaveSpawnTime = Random.Range(5, 7);
+            int randSmallWaveSpawnTime = Random.Range(6, 8);
 
             yield return new WaitForSeconds(randSmallWaveSpawnTime);
 
@@ -73,7 +75,7 @@ public class SpawnManager : MonoBehaviour
         {
             int randWaveDir = Random.Range(0, 4);
             int numOfEnemiesToSpawn = Random.Range(4, 7);
-            int randLargeWaveSpawnTime = Random.Range(13, 15);
+            int randLargeWaveSpawnTime = Random.Range(14, 16);
 
             yield return new WaitForSeconds(randLargeWaveSpawnTime);
 

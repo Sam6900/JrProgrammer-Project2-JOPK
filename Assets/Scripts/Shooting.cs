@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Shooting : MonoBehaviour
 {
+//  ENCAPSULATION
+
     [SerializeField] private float bulletForce;
     [SerializeField] private float shootingStateWaitTime;
     [HideInInspector] public bool isWagonWheelActive;
@@ -11,7 +13,7 @@ public class Shooting : MonoBehaviour
     public float fireRate;
     private float shootingTimeCount;
     private Vector2 shootDir;
-    private Vector2 nullVector = new Vector2(0, 0);
+    private readonly Vector2 nullVector = new Vector2(0, 0);
 
     private Animator animator;
     [SerializeField] private GameObject bulletPrefab;
@@ -31,6 +33,7 @@ public class Shooting : MonoBehaviour
         HandleShooting();
     }
     
+//  ABSTRACTION
     void GetShootDir()
     {
         if (Input.GetKey(KeyCode.UpArrow))

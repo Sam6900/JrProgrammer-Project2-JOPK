@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
 
-public abstract class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     [SerializeField] private int cleanEnemyBodyTime = 6;
     [SerializeField] protected int hitPoints;
-    private AIDestinationSetter aiDestinationSetterScript;
     protected AIPath enemyAIPath;
     protected GameObject player;
-    private BoxCollider2D enemyCollider;
-    public static int enemyCount;
     protected GameManager gameManagerScript;
-    
+    private AIDestinationSetter aiDestinationSetterScript;
+    private BoxCollider2D enemyCollider;
+    public static int enemyCount { get; private set; } // ENCAPSULATION
+
     // Enemy Child Fields
     private GameObject enemyChild;
     protected Animator enemyChildAnimator;
@@ -37,7 +37,6 @@ public abstract class Enemy : MonoBehaviour
         enemyChildRenderer = enemyChild.GetComponent<SpriteRenderer>();
         enemyChildAnimator = enemyChild.GetComponent<Animator>();
         enemyCount++;
-        Debug.Log(enemyCount);
 
         PlayerController.PlayerDeathHandler += PlayerController_PlayerDeathHandler;
         PlayerController.NukeExplosionHandler += PlayerController_NukeExplosionHandler;
@@ -59,7 +58,10 @@ public abstract class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
 
-    protected abstract Transform GetTarget();
+    protected virtual Transform GetTarget()
+    {
+        return player.GetComponent<Transform>();
+    }
 
     // Enemy destroys player on collision
     private void OnCollisionEnter2D(Collision2D collision)

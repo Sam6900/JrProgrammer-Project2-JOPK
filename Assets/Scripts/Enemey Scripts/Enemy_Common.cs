@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// INHERITANCE
 public class Enemy_Common : Enemy
 {
-    protected override Transform GetTarget()
-    {
-        return player.GetComponent<Transform>();
-    }
+
 }

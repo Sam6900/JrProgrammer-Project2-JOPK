@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// POLYMORPHISM
 public class Enemy_Thorn : Enemy
 {
     [SerializeField] private Transform targetTransf;

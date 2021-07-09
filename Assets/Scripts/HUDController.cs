@@ -8,8 +8,8 @@ public class HUDController : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI playerLifeCountText;
     [SerializeField] private Text playerNameText;
-    [SerializeField] private int playerNameWaitTime = 2;
     [SerializeField] private Text endGameText;
+    private int playerNameWaitTime = 2;
 
     // Start is called before the first frame update
     void Start()

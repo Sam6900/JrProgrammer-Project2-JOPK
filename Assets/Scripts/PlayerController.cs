@@ -5,10 +5,33 @@ using System;
 
 public class PlayerController : MonoBehaviour
 {
+//  ENCAPSULATION
+
     [SerializeField] private float moveSpeed;
     [HideInInspector] public int playerLifeCount;
     [HideInInspector] public int moneyCount;
-    private readonly int minLifeCount = 0;
+    private int minLifeCount = 0;
+    public int MinLifeCount
+    {
+        get
+        {
+            return minLifeCount;
+        }
+
+        set
+        {
+            if (value < 0)
+            {
+                Debug.LogError("Player minimum life count cannot be negative");
+            }
+
+            else
+            {
+                minLifeCount = value;
+            }
+        }
+    }
+
     private float playerOldMoveSpeed;
     private float playerOldFireRate;
     private Vector2 moveDir;
@@ -77,6 +100,8 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(WagonWheelItemFunction());
         }
     }
+
+ // ABSTRACTION
 
     private void HandleMovement()
     {
